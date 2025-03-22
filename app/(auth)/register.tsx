@@ -14,7 +14,7 @@ import {
 import { useRouter } from "expo-router";
 import tw from "twrnc";
 import { Keyboard as RNKeyboard } from "react-native";
-import WaveBackground from "../../assets/images/wavebackground.svg"; // Import SVG
+// import WaveBackground from "../../assets/images/wavebackground.svg"; // Import SVG
 
 const { width, height } = Dimensions.get("window"); // Get screen dimensions
 
@@ -78,7 +78,7 @@ export default function LoginScreen() {
                     {/* SVG Background - Always at Bottom & Full Width */}
                     {!keyboardVisible && (
                         <View style={[tw`absolute bottom-0 left-0`, { width: width, height: height * 0.25 }]}>
-                            <WaveBackground width={width} height={height * 0.25} preserveAspectRatio="none" />
+                            {/* <WaveBackground width={width} height={height * 0.25} preserveAspectRatio="none" /> */}
                         </View>
                     )}
                 </View>

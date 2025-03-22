@@ -10,6 +10,8 @@ const Colors = {
   background: '#ffff',
   primarybg: '#deddf8',
   secondarybg: '#d2fee4',
+  gradientStart: '#6afcfc',
+  gradientEnd: '#dbbae3',
   orange: '#f9891f',
   tint: tintColorLight,
   icon: '#687076',
