@@ -4,36 +4,47 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    KeyboardAvoidingView,
-    Platform,
     ScrollView,
-    TouchableWithoutFeedback,
-    Keyboard,
-    ImageBackground
+    ImageBackground,
+    Image,
+    
 } from "react-native";
 import { useRouter } from "expo-router";
 import tw from "twrnc";
-import { Keyboard as RNKeyboard } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Animatable from "react-native-animatable";
 import BalloonIcon from "../../assets/images/balloon.svg";
-import Slider from "@react-native-community/slider";
+import Checkbox from "expo-checkbox";
 
 export default function LoginScreen() {
     const router = useRouter();
     const [name, setName] = useState("");
-    const [age, setAge] = useState(18);
-    const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const [isChecked, setChecked] = useState(false);
+    const [showCheckbox, setShowCheckbox] = useState(false);
+
+    const handleNameChange = (text: string) => {
+        setName(text);
+    };
 
     useEffect(() => {
-        const showListener = RNKeyboard.addListener("keyboardDidShow", () => setKeyboardVisible(true));
-        const hideListener = RNKeyboard.addListener("keyboardDidHide", () => setKeyboardVisible(false));
+        if (name.length >= 3) {
+            setShowCheckbox(true);
+            setTimeout(() => {
+                setChecked(true);
+            }, 500);
+        } else {
+            setShowCheckbox(false);
+            setChecked(false);
+        }
+    }, [name]);
 
-        return () => {
-            showListener.remove();
-            hideListener.remove();
-        };
-    }, []);
+    const handleLogin = () => {
+        if (name.length >= 3 && isChecked) {
+            router.push("/(auth)/securityquestions");
+        }
+    };
+
+    const isButtonDisabled = name.length < 3 || !isChecked;
 
     return (
         <ImageBackground
@@ -48,84 +59,93 @@ export default function LoginScreen() {
                 style={tw`absolute top-0 left-0 right-0 bottom-0`}
             />
 
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 50 : 0}
-                style={tw`flex-1`}
-            >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <View style={tw`flex-1`}>
-                        <ScrollView
-                            contentContainerStyle={tw`flex-grow justify-center items-center px-6`}
-                            keyboardShouldPersistTaps="handled"
-                            showsVerticalScrollIndicator={false}
-                        >
-                            {/* SVG Icon Above the Text */}
-                            <BalloonIcon width={150} height={150} style={tw`mb-3`} />
+            
+                <View style={tw`flex-1 justify-center`}>
+                    <ScrollView
+                        contentContainerStyle={tw`flex-1 justify-center items-center`}
+                        keyboardShouldPersistTaps="handled"
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <BalloonIcon width={150} height={150} style={tw`mb-4`} />
 
-                            <Text style={tw`text-3xl font-bold mb-1 mt-4 text-yellow-600`}>
-                                Enter Your Name
-                            </Text>
+                        <Text style={tw`text-3xl font-bold mb-1 mt-4 text-yellow-600`}>
+                            Enter Your Nick Name
+                        </Text>
 
-                            <View style={tw`w-full`}>
-                                <TextInput
-                                    placeholder="Enter your name..."
-                                    value={name}
-                                    onChangeText={setName}
-                                    style={[
-                                        tw`border-2 border-blue-400 rounded-xl bg-yellow-100 px-4 py-3 w-full text-lg text-black`,
-                                        { height: 50, textAlignVertical: "center" },
-                                    ]}
-                                    numberOfLines={1}
-                                    multiline={false}
-                                    returnKeyType="done"
-                                />
-                            </View>
+                        <View style={tw`w-full mt-3 px-6`}>
+                            <TextInput
+                                placeholder="Enter your name..."
+                                value={name}
+                                onChangeText={handleNameChange}
+                                style={tw`border-4 border-blue-400 rounded-full bg-yellow-100 px-4 py-4 font-bold text-3xl text-gray-600`}
+                                numberOfLines={1}
+                                multiline={false}
+                                returnKeyType="done"
+                            />
+                        </View>
 
-                            {/* Age Selector */}
-                            <Text style={tw`text-3xl font-bold text-yellow-600 mt-6`}>Select Your Age</Text>
-
-                            <View style={tw`w-full items-center mt-3`}>
-                                <Slider
-                                    style={tw`w-70`}
-                                    minimumValue={0}
-                                    maximumValue={100}
-                                    step={1}
-                                    value={age}
-                                    minimumTrackTintColor="#1dd7e0"
-                                    maximumTrackTintColor="#ddd"
-                                    thumbTintColor="#8ba0ff"
-                                    onValueChange={(value) => setAge(value)}
-                                />
-                                <Text style={tw`text-xl font-bold text-green-600 mt-1`}>
-                                    Age: {age}
-                                </Text>
-                            </View>
-
-                            <TouchableOpacity
-                                onPress={() => router.push('/(auth)/signin')}
-                                style={tw`rounded-full mx-8 mt-8 border-4 border-yellow-500 bg-blue-400`}
+                        {showCheckbox && (
+                            <Animatable.View
+                                animation="fadeInUp"
+                                duration={500}
+                                style={tw`flex-row items-center mt-4`}
                             >
-                                <LinearGradient
-                                    colors={["#8ba0ff", "#1dd7e0"]}
-                                    start={{ x: 0.5, y: 0 }}
-                                    end={{ x: 1, y: 1 }}
-                                    style={tw`py-2 px-8 rounded-full items-center`}
+                                <Checkbox
+                                    value={isChecked}
+                                    onValueChange={setChecked}
+                                    color={isChecked ? "#1dd7e0" : undefined}
+                                />
+                                <Text style={tw`ml-2 text-gray-700 text-lg`}>
+                                    name typing requirement done ✅
+                                </Text>
+                            </Animatable.View>
+                        )}
+
+                        <TouchableOpacity
+                            onPress={handleLogin}
+                            disabled={isButtonDisabled}
+                            style={tw`rounded-full mt-6 border-4 ${isButtonDisabled ? "border-gray-400 bg-gray-300" : "border-yellow-500 bg-blue-400"
+                                }`}
+                        >
+                            <LinearGradient
+                                colors={isButtonDisabled ? ["#b4b3b2", "#a0a0a0"] : ["#8ba0ff", "#1dd7e0"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 1, y: 1 }}
+                                style={tw`py-3 w-40 rounded-full items-center`}
+                            >
+                                <Animatable.Text
+                                    animation="pulse"
+                                    iterationCount="infinite"
+                                    duration={1000}
+                                    style={tw`text-center font-bold text-2xl ${isButtonDisabled ? "text-gray-300" : "text-yellow-300"
+                                        }`}
                                 >
-                                    <Animatable.Text
-                                        animation="pulse"
-                                        iterationCount="infinite"
-                                        duration={1000}
-                                        style={tw`text-center font-bold text-2xl text-yellow-300`}
-                                    >
-                                        Let's Go
-                                    </Animatable.Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-                        </ScrollView>
-                    </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+                                    Let's Go
+                                </Animatable.Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+
+                        {!isButtonDisabled && (
+                            <Animatable.View
+                                animation={{
+                                    0: { translateY: 10 },
+                                    0.5: { translateY: -5 },
+                                    1: { translateY: 10 }
+                                }}
+                                iterationCount="infinite"
+                                duration={1500}
+                                easing="ease-in-out"
+                                style={tw`absolute right-16 bottom-40`}
+                            >
+                                <Image
+                                    source={require("../../assets/images/hand-pointer.png")}
+                                    style={{ width: 60, height: 60, resizeMode: "contain" }}
+                                />
+                            </Animatable.View>
+                        )}
+                    </ScrollView>
+                </View>
+            
         </ImageBackground>
     );
 }

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, Text } from "react-native";
 import { useRouter } from "expo-router";
 import Colors from "@/constants/Colors";
 import * as Animatable from "react-native-animatable";
@@ -8,17 +8,17 @@ import tw from "../lib/tailwind";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 
+
 export default function LandingPage() {
   const router = useRouter();
+  const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default to English
 
   return (
-    <LinearGradient
-      colors={[Colors.gradientStart, Colors.gradientEnd]} // Using stored colors
-      style={tw`flex-1`}
-    >
+    <LinearGradient colors={[Colors.gradientStart, Colors.gradientEnd]} style={tw`flex-1`}>
       <SafeAreaView style={tw`flex-1`}>
         <StatusBar style="dark" translucent backgroundColor="transparent" />
         <View style={tw`flex-1 justify-between`}>
+
           {/* Image Section with Animated Glow */}
           <Animatable.View
             animation={{
@@ -31,7 +31,7 @@ export default function LandingPage() {
             duration={3500}
             easing="ease-in-out"
             delay={300}
-            style={tw`flex-1 justify-center items-center pt-5`}
+            style={tw`flex-1 justify-center items-center`}
           >
             <Image
               source={require("../assets/images/landing-page.png")}
@@ -46,35 +46,36 @@ export default function LandingPage() {
               { borderTopLeftRadius: 50, borderTopRightRadius: 50, overflow: "hidden" },
             ]}
           >
+
+            {/* Get Started Button */}
             <TouchableOpacity
-              onPress={() => router.push('/(auth)/signin')}
-              style={tw`rounded-xl mx-8 mt-8 border-4 border-yellow-500 overflow-hidden`}
+              onPress={() => router.push("/(auth)/signin")}
+              style={tw`rounded-xl mx-8 mt-4 border-4 border-yellow-500 overflow-hidden`}
             >
               <LinearGradient
-                colors={["#8ba0ff", "#1dd7e0",]}
-                start={{ x: 0.5, y: 0}}  // Starts in the middle of the top
-                end={{ x: 1, y: 1 }}  // Ends at bottom-right
+                colors={["#8ba0ff", "#1dd7e0"]}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 1, y: 1 }}
                 style={tw`py-4 rounded-xl items-center`}
               >
-
                 <Animatable.Text
                   animation="pulse"
                   iterationCount="infinite"
                   duration={1000}
-                  style={tw`text-center font-bold text-xl text-yellow-300`}
+                  style={tw`text-center font-bold text-2xl text-yellow-300`}
                 >
                   Get Started
                 </Animatable.Text>
               </LinearGradient>
             </TouchableOpacity>
 
+            {/* Animated Cursor Pointer */}
             <TouchableOpacity>
-              {/* Animated Cursor Pointer */}
               <Animatable.View
                 animation={{
                   0: { translateY: 10 },
                   0.5: { translateY: -5 },
-                  1: { translateY: 10 }
+                  1: { translateY: 10 },
                 }}
                 iterationCount="infinite"
                 duration={1500}

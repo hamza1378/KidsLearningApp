@@ -10,7 +10,8 @@ export default function RootLayout() {
       initialRouteName="signin"
     >
       <Stack.Screen name="signin" />
-      <Stack.Screen name="register" />
+      <Stack.Screen name="securityquestions" />
+      
     </Stack>
   );
 }
