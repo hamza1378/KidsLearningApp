@@ -19,6 +19,7 @@ import tw from "twrnc";
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
 import SecurityLock from "../../assets/images/Security-lock.svg";
 import Button from "@/components/Button";
+import BackgroundWrapper from "@/components/BackgroundWrapper";
 
 const questions = [
   { text: "What is your favorite color?", icon: "🎨" },
@@ -55,117 +56,97 @@ export default function SecurityQuestion() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={tw`flex-1`}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -500}
-    >
+    <BackgroundWrapper>
       <TouchableWithoutFeedback onPress={() => {
         setShowDropdown(false);
         Keyboard.dismiss();
       }}>
-        <ImageBackground
-          source={require("../../assets/images/signinbg.jpg")}
-          resizeMode="cover"
-          style={tw`flex-1`}
-        >
-          <LinearGradient
-            colors={["rgba(29, 215, 224, 0.8)", "rgba(215, 166, 203, 0.8)"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0.3, y: 0.9 }}
-            style={tw`absolute top-0 left-0 right-0 bottom-0`}
-          />
+        <View style={tw`flex-1 w-full`}>
+          <View style={tw`items-center mb-8 mt-12`}>
+            <SecurityLock width={150} height={150} />
+          </View>
 
-          <SafeAreaView style={tw`flex-1 px-6 py-10`}>
+          {/* Dropdown Container */}
+          <View style={tw`mb-4 z-30`}>
             <Text style={tw`text-3xl font-bold text-yellow-600 text-center mb-4`}>
               Security Questions
             </Text>
-
-            <View style={tw`flex-1 justify-center`}>
-              <View style={tw`items-center mb-8`}>
-                <SecurityLock width={150} height={150} />
-              </View>
-
-              {/* Dropdown Container */}
-              <View style={tw`mb-4 z-30`}>
-                <TouchableOpacity
-                  style={tw`flex-row items-center justify-between bg-green-100 border-4 border-green-500 rounded-full p-4`}
-                  onPress={() => {
-                    setShowDropdown(!showDropdown);
-                    Keyboard.dismiss();
-                  }}
-                >
-                  <View style={tw`flex-row items-center`}>
-                    {selectedQuestion && (
-                      <TouchableOpacity onPress={handleIconPress}>
-                        <Animated.View style={[tw`w-10 h-10 rounded-full bg-green-300 flex items-center justify-center mr-2`, animatedStyle]}>
-                          <Text style={tw`text-lg`}>{selectedQuestion.icon}</Text>
-                        </Animated.View>
-                      </TouchableOpacity>
-                    )}
-                    <Text style={tw`text-lg font-semibold text-gray-500`}>
-                      {selectedQuestion ? selectedQuestion.text : "Select a security question"}
-                    </Text>
-                  </View>
-                  {!selectedQuestion && (
-                    <FontAwesome name={showDropdown ? "chevron-up" : "chevron-down"} size={22} color="red" />
-                  )}
-                </TouchableOpacity>
-                {showDropdown && (
-                  <View style={tw`mt-2 bg-red-100 border-4 border-red-400 rounded-2xl shadow-lg max-h-75 w-full absolute top-20`}>
-                    <ScrollView
-                      style={tw`flex-1`}
-                      contentContainerStyle={tw`pb-2`}
-                      keyboardShouldPersistTaps="handled"
-                      showsVerticalScrollIndicator={false}
-                    >
-                      {questions.map((item, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          style={tw`flex-row items-center p-3 ${index !== questions.length - 1 ? "border-b border-gray-300" : ""}`}
-                          onPress={() => {
-                            setSelectedQuestion(item);
-                            setShowDropdown(false);
-                          }}
-                        >
-                          <View style={tw`w-10 h-10 rounded-full bg-red-200 items-center justify-center mr-3`}>
-                            <Text style={tw`text-lg`}>{item.icon}</Text>
-                          </View>
-                          <Text style={tw`text-lg text-gray-700 flex-1`}>{item.text}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </ScrollView>
-                  </View>
+            <TouchableOpacity
+              style={tw`flex-row items-center w-11/12 self-center justify-between bg-green-100 border-4 border-green-500 rounded-full p-4`}
+              onPress={() => {
+                setShowDropdown(!showDropdown);
+                Keyboard.dismiss();
+              }}
+            >
+              <View style={tw`flex-row items-center`}>
+                {selectedQuestion && (
+                  <TouchableOpacity onPress={handleIconPress}>
+                    <Animated.View style={[tw`w-10 h-10 rounded-full bg-green-300 flex items-center justify-center mr-2`, animatedStyle]}>
+                      <Text style={tw`text-lg`}>{selectedQuestion.icon}</Text>
+                    </Animated.View>
+                  </TouchableOpacity>
                 )}
+                <Text style={tw`text-lg font-semibold text-gray-500`}>
+                  {selectedQuestion ? selectedQuestion.text : "Select a security question"}
+                </Text>
               </View>
-
-              {selectedQuestion && (
-                <View style={tw`mb-8`}>
-                  <View style={tw`flex-row items-center border-4 border-blue-400 rounded-full bg-yellow-100 p-3`}>
-                    <TextInput
-                      value={answer}
-                      onChangeText={setAnswer}
-                      placeholder="Enter your answer"
-                      placeholderTextColor="gray"
-                      style={tw`flex-1 text-lg font-bold text-gray-700`}
-                      onSubmitEditing={() => Keyboard.dismiss()}
-                    />
-                  </View>
-                </View>
+              {!selectedQuestion && (
+                <FontAwesome name={showDropdown ? "chevron-up" : "chevron-down"} size={22} color="red" />
               )}
+            </TouchableOpacity>
+            {showDropdown && (
+              <View style={tw`mt-2 bg-red-100 border-4 border-red-400 rounded-2xl shadow-lg max-h-75 w-11/12 self-center absolute ${selectedQuestion ? 'top-33' : 'top-30'}`}>
+                <ScrollView
+                  style={tw`flex-1`}
+                  contentContainerStyle={tw`pb-2`}
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                >
+                  {questions.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={tw`flex-row items-center p-3 ${index !== questions.length - 1 ? "border-b border-gray-300" : ""}`}
+                      onPress={() => {
+                        setSelectedQuestion(item);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      <View style={tw`w-10 h-10 rounded-full bg-red-200 items-center justify-center mr-3`}>
+                        <Text style={tw`text-lg`}>{item.icon}</Text>
+                      </View>
+                      <Text style={tw`text-lg text-gray-700 flex-1`}>{item.text}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+          </View>
 
-              <View style={tw`mt-8`}>
-                <Button
-                  title="Submit"
-                  showAnimatedHand={!isButtonDisabled}
-                  onPress={handleSubmit}
-                  disabled={isButtonDisabled}
+          {selectedQuestion && (
+            <View style={tw`mb-8`}>
+              <View style={tw`flex-row items-center w-11/12 self-center border-4 border-blue-400 rounded-full bg-yellow-100 p-3`}>
+                <TextInput
+                  value={answer}
+                  onChangeText={setAnswer}
+                  placeholder="Enter your answer"
+                  placeholderTextColor="gray"
+                  style={tw`flex-1 text-lg font-bold text-gray-700`}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                 />
               </View>
             </View>
-          </SafeAreaView>
-        </ImageBackground>
+          )}
+
+          <View style={tw`absolute bottom-10 w-full`}>
+            <Button
+              title="Submit"
+              showAnimatedHand={!isButtonDisabled}
+              onPress={handleSubmit}
+              disabled={isButtonDisabled}
+            />
+          </View>
+        </View>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </BackgroundWrapper>
   );
 }

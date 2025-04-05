@@ -6,12 +6,11 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import tw from "twrnc";
-import { LinearGradient } from "expo-linear-gradient";
 import BalloonIcon from "../../assets/images/balloon.svg";
 import { playVoice } from "@/hooks/playVoice";
 import Button from '@/components/Button';
 import PencilIcons from "../../assets/images/pencils.svg";
-import AnimatedArrow from "@/components/AnimatedArrow";
+import BackgroundWrapper from "@/components/BackgroundWrapper";
 
 export default function LoginScreen() {
     const router = useRouter();
@@ -40,38 +39,32 @@ export default function LoginScreen() {
     };
 
     return (
-        <LinearGradient
-            colors={["rgba(29, 215, 224, 0.8)", "rgba(215, 166, 203, 0.8)"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0.3, y: 0.9 }}
-            style={tw`flex-1 justify-center items-center`}
-        >
+        <BackgroundWrapper>
             {/* Icons Row */}
-            <View style={tw`flex-row items-center justify-center mb-4`}>
-                <BalloonIcon width={130} height={130} style={tw`mr-8`} />
-                <PencilIcons width={130} height={130} />
+            <View style={tw`flex-row items-center justify-center mb-4 mt-14`}>
+                <BalloonIcon width={150} height={150} />
             </View>
 
-            <Text style={tw`text-3xl font-bold mb-1 mt-4 text-yellow-600`}>
-                Enter Your Nick Name
-            </Text>
+            <View style={tw`w-full items-center mt-16`}>
+                <Text style={tw`text-3xl font-bold mb-1 mt-4 text-yellow-600`}>
+                    Enter Your Nick Name
+                </Text>
 
-            <View style={tw`w-full relative px-6`}>
-                {/* Conditionally render the AnimatedArrow based on focus state */}
-                {!isArrowDisabled && <AnimatedArrow disabled={isArrowDisabled} />} {/* Hide arrow when focused */}
 
-                {/* Input Field */}
-                <TextInput
-                    placeholder="e.g Chief"
-                    value={nickName}
-                    onChangeText={setNickName}
-                    onFocus={handleFocus} // Triggered when the TextInput is focused
-                    onBlur={handleBlur}   // Triggered when the TextInput loses focus
-                    style={tw`border-4 border-blue-400 rounded-full bg-yellow-100 px-4 py-4 font-bold text-2xl text-gray-600`}
-                    numberOfLines={1}
-                    multiline={false}
-                    returnKeyType="done"
-                />
+                <View style={tw`w-full relative px-6`}>
+                    {/* Input Field */}
+                    <TextInput
+                        placeholder="e.g Chief"
+                        value={nickName}
+                        onChangeText={setNickName}
+                        onFocus={handleFocus} // Triggered when the TextInput is focused
+                        onBlur={handleBlur}   // Triggered when the TextInput loses focus
+                        style={tw`border-4 border-blue-400 rounded-full bg-yellow-100 px-4 py-4 font-bold text-2xl text-gray-600`}
+                        numberOfLines={1}
+                        multiline={false}
+                        returnKeyType="done"
+                    />
+                </View>
             </View>
 
             <View style={tw`absolute bottom-10 w-full`}>
@@ -82,7 +75,6 @@ export default function LoginScreen() {
                     onPress={handleLogin}
                 />
             </View>
-
-        </LinearGradient>
+        </BackgroundWrapper>
     );
 }
