@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, TouchableOpacity, Image, Text } from "react-native";
+import { View, Image } from "react-native";
 import { useRouter } from "expo-router";
 import Colors from "@/constants/Colors";
 import * as Animatable from "react-native-animatable";
 import tw from "../lib/tailwind";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
-
+import Button from '@/components/Button';
+import { playVoice } from "@/hooks/playVoice";
 
 export default function LandingPage() {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default to English
+
+  useEffect(() => {
+    playVoice({
+      text: "Lets get started"
+    });
+  }, []);
+
+  const handlePress = () => {
+    router.navigate('/(auth)/nickname');
+  };
 
   return (
     <LinearGradient colors={[Colors.gradientStart, Colors.gradientEnd]} style={tw`flex-1`}>
-      <SafeAreaView style={tw`flex-1`}>
+      <SafeAreaView style={tw`flex-1 items-center`}>
         <StatusBar style="dark" translucent backgroundColor="transparent" />
-        <View style={tw`flex-1 justify-between`}>
-
           {/* Image Section with Animated Glow */}
           <Animatable.View
             animation={{
@@ -30,8 +38,8 @@ export default function LandingPage() {
             iterationCount="infinite"
             duration={3500}
             easing="ease-in-out"
-            delay={300}
-            style={tw`flex-1 justify-center items-center`}
+            delay={100}
+            style={tw`justify-center items-center`}
           >
             <Image
               source={require("../assets/images/landing-page.png")}
@@ -40,56 +48,14 @@ export default function LandingPage() {
           </Animatable.View>
 
           {/* Content Section */}
-          <View
-            style={[
-              tw`flex-1 justify-center px-4`,
-              { borderTopLeftRadius: 50, borderTopRightRadius: 50, overflow: "hidden" },
-            ]}
-          >
-
-            {/* Get Started Button */}
-            <TouchableOpacity
-              onPress={() => router.push("/(auth)/signin")}
-              style={tw`rounded-xl mx-8 mt-4 border-4 border-yellow-500 overflow-hidden`}
-            >
-              <LinearGradient
-                colors={["#8ba0ff", "#1dd7e0"]}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={tw`py-4 rounded-xl items-center`}
-              >
-                <Animatable.Text
-                  animation="pulse"
-                  iterationCount="infinite"
-                  duration={1000}
-                  style={tw`text-center font-bold text-2xl text-yellow-300`}
-                >
-                  Get Started
-                </Animatable.Text>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            {/* Animated Cursor Pointer */}
-            <TouchableOpacity>
-              <Animatable.View
-                animation={{
-                  0: { translateY: 10 },
-                  0.5: { translateY: -5 },
-                  1: { translateY: 10 },
-                }}
-                iterationCount="infinite"
-                duration={1500}
-                easing="ease-in-out"
-                style={tw`absolute right-3 bottom-0`}
-              >
-                <Image
-                  source={require("../assets/images/hand-pointer.png")}
-                  style={{ width: 60, height: 60, resizeMode: "contain" }}
-                />
-              </Animatable.View>
-            </TouchableOpacity>
+          <View style={tw`absolute bottom-10 w-full`}>
+          <Button
+            title="Get Started"
+            showAnimatedHand={true}
+            onPress={handlePress}
+          />
           </View>
-        </View>
+
       </SafeAreaView>
     </LinearGradient>
   );

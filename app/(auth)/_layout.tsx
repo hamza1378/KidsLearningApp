@@ -7,10 +7,11 @@ export default function RootLayout() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="signin"
+      initialRouteName="nickname"
     >
-      <Stack.Screen name="signin" />
+      <Stack.Screen name="nickname" />
       <Stack.Screen name="securityquestions" />
+      <Stack.Screen name="subjectselection" />
       
     </Stack>
   );
