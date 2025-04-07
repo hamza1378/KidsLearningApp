@@ -4,4 +4,5 @@ export default interface ButtonPropsType{
     onPress?: () => void;
     disabled?: boolean;
     size?: small | medium | large;
+    style?: ViewStyle | TextStyle; 
 };

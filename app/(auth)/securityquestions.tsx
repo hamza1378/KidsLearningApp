@@ -5,19 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
+
 import { FontAwesome } from "@expo/vector-icons";
 import tw from "twrnc";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
-import SecurityLock from "../../assets/images/Security-lock.svg";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
+import SecurityLock from "../../assets/icons/Security-Lock.svg";
 import Button from "@/components/Button";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
 
@@ -48,10 +44,15 @@ export default function SecurityQuestion() {
     });
   };
 
+  // Dropdown Slide Animation
+  const showDropdownAnim = useSharedValue(0); // Controls the height of the dropdown
+
+  const dropdownStyle = useAnimatedStyle(() => ({
+    height: withTiming(showDropdown ? 285 : 0, { duration: 300 }), // Slide down or up animation
+    overflow: 'hidden',
+  }));
+
   const handleSubmit = () => {
-    console.log("Submit button pressed");
-    console.log("Selected question:", selectedQuestion);
-    console.log("Answer:", answer);
     router.push("/(auth)/subjectselection");
   };
 
@@ -75,6 +76,7 @@ export default function SecurityQuestion() {
               style={tw`flex-row items-center w-11/12 self-center justify-between bg-green-100 border-4 border-green-500 rounded-full p-4`}
               onPress={() => {
                 setShowDropdown(!showDropdown);
+                showDropdownAnim.value = showDropdown ? 0 : 1; // Toggle dropdown visibility
                 Keyboard.dismiss();
               }}
             >
@@ -87,15 +89,17 @@ export default function SecurityQuestion() {
                   </TouchableOpacity>
                 )}
                 <Text style={tw`text-lg font-semibold text-gray-500`}>
-                  {selectedQuestion ? selectedQuestion.text : "Select a security question"}
+                  {selectedQuestion ? selectedQuestion.text : "Select a security question?"}
                 </Text>
               </View>
               {!selectedQuestion && (
                 <FontAwesome name={showDropdown ? "chevron-up" : "chevron-down"} size={22} color="red" />
               )}
             </TouchableOpacity>
+
+            {/* Animated Dropdown Section */}
             {showDropdown && (
-              <View style={tw`mt-2 bg-red-100 border-4 border-red-400 rounded-2xl shadow-lg max-h-75 w-11/12 self-center absolute ${selectedQuestion ? 'top-33' : 'top-30'}`}>
+              <Animated.View style={[tw`mt-2 bg-red-100 border-4 border-red-400 rounded-2xl shadow-lg  w-11/12 self-center absolute top-32`, dropdownStyle]}>
                 <ScrollView
                   style={tw`flex-1`}
                   contentContainerStyle={tw`pb-2`}
@@ -111,14 +115,14 @@ export default function SecurityQuestion() {
                         setShowDropdown(false);
                       }}
                     >
-                      <View style={tw`w-10 h-10 rounded-full bg-red-200 items-center justify-center mr-3`}>
+                      <View style={tw`w-10 h-10 rounded-full bg-red-300 items-center justify-center mr-3`}>
                         <Text style={tw`text-lg`}>{item.icon}</Text>
                       </View>
                       <Text style={tw`text-lg text-gray-700 flex-1`}>{item.text}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
-              </View>
+              </Animated.View>
             )}
           </View>
 

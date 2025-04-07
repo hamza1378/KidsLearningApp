@@ -81,7 +81,7 @@ export default function SubjectSelection() {
                 <Animated.Image
                     source={require('../../assets/icons/Science.png')} // Replace with your PNG image path
                     style={[
-                        tw`w-28 h-28`, // Size of the PNG image
+                        tw`w-32 h-32`, // Size of the PNG image
                         { transform: [{ scale: scaleAnim }] }, // Applying scale animation
                     ]}
                 />
