@@ -11,7 +11,7 @@ import tw from "twrnc";
 import BalloonIcon from "../../assets/images/balloon.svg";
 import { playVoice } from "@/hooks/playVoice";
 import Button from '@/components/Button';
-import PencilIcons from "../../assets/images/pencils.svg";
+
 import BackgroundWrapper from "@/components/BackgroundWrapper";
 
 export default function LoginScreen() {
