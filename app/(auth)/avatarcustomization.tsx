@@ -113,14 +113,16 @@ const AvatarCustomization = () => {
               alignItems: "center",
             }}
           >
+            <View style={tw`bg-white bg-opacity-20 rounded-full p-4 flex justify-center items-center`}>
             <Image
               source={selectedAvatar?.src}
               style={tw`w-50 h-50 rounded-full`}
               resizeMode="contain"
             />
-            <Text style={tw`text-3xl font-bold text-white my-2`}>
+            <Text style={tw`text-3xl font-bold text-gray-600 my-2`}>
               {selectedAvatar?.name}
             </Text>
+            </View>
           </Animated.View>
         )}
 

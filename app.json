@@ -18,7 +18,6 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.CAMERA",
         "android.permission.CAMERA"
       ],
       "package": "com.hamza247.KidsLearningApp"
@@ -40,7 +39,8 @@
         }
       ],
       "expo-barcode-scanner",
-      "expo-font"
+      "expo-font",
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true
@@ -50,14 +50,11 @@
         "origin": false
       },
       "eas": {
-        "projectId": "68108294-b5e7-4bd6-be6f-09df3c290aee"
+        "projectId": "e89bbcf5-77a5-4142-a317-5af3c17ead2e"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/68108294-b5e7-4bd6-be6f-09df3c290aee"
     }
   }
 }
