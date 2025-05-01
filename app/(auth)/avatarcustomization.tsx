@@ -61,7 +61,7 @@ const AvatarCustomization = () => {
   const handleNext = async () => {
     if (selectedId !== null) {
       await AsyncStorage.setItem("selectedAvatar", selectedId.toString());
-      router.push("/(auth)/casttotv");
+      router.push("/(auth)/success");
     }
   };
 
