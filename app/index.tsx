@@ -3,25 +3,36 @@ import { View, Image } from "react-native";
 import { useRouter } from "expo-router";
 import * as Animatable from "react-native-animatable";
 import tw from "../lib/tailwind";
-import Button from '@/components/Button';
+import Button from "@/components/Button";
 import { playVoice } from "@/hooks/playVoice";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function LandingPage() {
   const router = useRouter();
+  const { showLoader, hideLoader } = useLoader();
 
   useEffect(() => {
-    playVoice({
-      text: "Lets get started"
-    });
+    playVoice({ text: "Let's get started" });
   }, []);
 
-  const handlePress = () => {
-    router.navigate('/(auth)/nickname');
+  const handlePress = async () => {
+    showLoader(); // show full-screen loader with 10s fallback
+
+    try {
+      // Simulate some async task (like checking login or fetching config)
+      await new Promise((resolve) => setTimeout(resolve, 3500)); // fake delay
+
+      hideLoader(); // hide loader manually
+      router.push("/(auth)/nickname"); // navigate after task
+    } catch (err) {
+      console.error("Something went wrong:", err);
+      hideLoader(); // hide loader even if there's an error
+    }
   };
 
   return (
-    <BackgroundWrapper>      
+    <BackgroundWrapper>
       <Animatable.View
         animation={{
           0: { opacity: 0.9, tintColor: "rgb(114, 233, 144)" },
@@ -41,13 +52,8 @@ export default function LandingPage() {
         />
       </Animatable.View>
 
-      {/* Content Section */}
       <View style={tw`absolute bottom-10 w-full`}>
-        <Button
-          title="Get Started"
-          showAnimatedHand={true}
-          onPress={handlePress}
-        />
+        <Button title="Get Started" showAnimatedHand onPress={handlePress} />
       </View>
     </BackgroundWrapper>
   );

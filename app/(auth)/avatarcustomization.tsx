@@ -15,6 +15,7 @@ import BackgroundWrapper from "@/components/BackgroundWrapper";
 import Button from "@/components/Button";
 import AvatarIcon from "@/assets/icons/Avatar-Icon.svg";
 import { LinearGradient } from "expo-linear-gradient";
+import { useLoader } from "@/context/LoaderContext";
 
 // Avatar list
 const avatars = [
@@ -57,14 +58,19 @@ const AvatarCustomization = () => {
   const [genderFilter, setGenderFilter] = useState<"boy" | "girl" | null>(null);
   const bounceAnim = useState(new Animated.Value(0))[0];
   const [tempSelectedId, setTempSelectedId] = useState<number | null>(null);
+  const { showLoader, hideLoader } = useLoader();
 
   const handleNext = async () => {
     if (selectedId !== null) {
+      showLoader(); // Show loader before navigating
       await AsyncStorage.setItem("selectedAvatar", selectedId.toString());
-      router.push("/(auth)/success");
+      setTimeout(() => {
+        router.push("/(auth)/success");
+        hideLoader(); // Hide loader after navigation
+      }, 3500); // Simulate some delay for loader
     }
   };
-
+  
   const handleSelectAvatar = (id: number) => {
     setTempSelectedId(id);
   };
@@ -215,7 +221,7 @@ const AvatarCustomization = () => {
                           : avatarBgColors[index % avatarBgColors.length];
 
                       const borderColor =
-                        avatar.id === tempSelectedId ? "border-yellow-500 tex-white" : "border-gray-300";
+                        avatar.id === tempSelectedId ? "border-yellow-500 text-white" : "border-gray-300";
 
                       return (
                         <TouchableOpacity

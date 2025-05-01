@@ -13,11 +13,13 @@ import { playVoice } from "@/hooks/playVoice";
 import Button from '@/components/Button';
 
 import BackgroundWrapper from "@/components/BackgroundWrapper";
+import { useLoader } from "@/context/LoaderContext";  // Import the loader context
 
 export default function LoginScreen() {
     const router = useRouter();
+    const { showLoader, hideLoader } = useLoader();  // Loader context hook
     const [nickName, setNickName] = useState("");
-    const [isArrowDisabled, setIsArrowDisabled] = useState(false);
+
     const [displayedText, setDisplayedText] = useState(""); // ✅ Typewriter state
     const isNickNameValid = nickName.length >= 3;
 
@@ -89,18 +91,22 @@ export default function LoginScreen() {
         return () => clearInterval(interval);
     }, []);
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (isNickNameValid) {
-            router.push("/(auth)/securityquestions");
+            showLoader(); // Start loader
+
+            try {
+                await new Promise((resolve) => setTimeout(resolve, 3500)); // Simulate loading
+                hideLoader();
+
+                setTimeout(() => {
+                    router.push("/(auth)/securityquestions"); 
+                }, 100); 
+            } catch (err) {
+                hideLoader();
+                console.error("Login error:", err);
+            }
         }
-    };
-
-    const handleFocus = () => {
-        setIsArrowDisabled(true);
-    };
-
-    const handleBlur = () => {
-        setIsArrowDisabled(false);
     };
 
     const rotateInterpolate = rotateAnim.interpolate({
@@ -141,8 +147,6 @@ export default function LoginScreen() {
                         placeholder="e.g Chief"
                         value={nickName}
                         onChangeText={setNickName}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
                         style={tw`border-4 border-blue-400 rounded-full bg-yellow-100 px-4 py-4 font-bold text-2xl text-gray-600`}
                         numberOfLines={1}
                         multiline={false}

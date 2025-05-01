@@ -10,6 +10,17 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as Animatable from "react-native-animatable";
 import ButtonPropsType from '@/types/ButtonPropsTypes';
 import Colors from '@/constants/Colors';
+import { Audio } from "expo-av";
+
+const playClickSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/audio/buttonPop.mp3") // Adjust path as per your file structure
+    );
+    await sound.playAsync();
+    setTimeout(() => {
+        sound.unloadAsync();
+    }, 1000);
+};
 
 const Button = ({
     title = '',
@@ -18,13 +29,20 @@ const Button = ({
     disabled = false,
     size = 'medium',
 }: ButtonPropsType) => {
+
+    const handlePress = async () => {
+        if (disabled) return;
+        await playClickSound();
+        onPress();
+    };
+
     return (
         <View
             style={tw`justify-center mx-auto ${size === 'small' ? 'w-1/2' : 'w-4/5'}`}
         >
             {/* Get Started Button */}
             <TouchableOpacity
-                onPress={onPress}
+                onPress={handlePress}
                 style={tw`rounded-xl border-4 ${disabled ? 'border-gray-400' : 'border-yellow-500'} overflow-hidden`}
             >
                 <LinearGradient
@@ -48,7 +66,7 @@ const Button = ({
             {
                 showAnimatedHand && (
                     <TouchableOpacity
-                        onPress={onPress}
+                        onPress={handlePress}
                     >
                         <Animatable.View
                             animation={{

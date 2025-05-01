@@ -16,6 +16,8 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } fr
 import SecurityLock from "../../assets/icons/Security-Lock.svg";
 import Button from "@/components/Button";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
+import { useLoader } from "@/context/LoaderContext";
+
 
 const questions = [
   { text: "What is your favorite color?", icon: "🎨" },
@@ -26,6 +28,7 @@ const questions = [
 
 export default function SecurityQuestion() {
   const router = useRouter();
+  const { showLoader, hideLoader } = useLoader();
   const [selectedQuestion, setSelectedQuestion] = useState<{ text: string; icon: string } | null>(null);
   const [answer, setAnswer] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -52,9 +55,17 @@ export default function SecurityQuestion() {
     overflow: 'hidden',
   }));
 
-  const handleSubmit = () => {
-    router.push("/(auth)/subjectselection");
+  const handleSubmit = async () => {
+    showLoader();
+  
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+    hideLoader();
+  
+    setTimeout(() => {
+      router.push("/(auth)/subjectselection");
+    }, 100);
   };
+  
 
   return (
     <BackgroundWrapper>

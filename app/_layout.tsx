@@ -1,12 +1,13 @@
 import { Stack } from "expo-router";
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
+import { LoaderProvider } from "@/context/LoaderContext"; 
 
 export default function RootLayout() {
-  SplashScreen.hideAsync(); // Ensure the splash screen stays until fonts are loaded
+  SplashScreen.hideAsync(); 
 
   return (
-    <>
+    <LoaderProvider>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -16,6 +17,6 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
       </Stack>
-    </>
+    </LoaderProvider>
   );
 }
