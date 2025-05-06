@@ -9,11 +9,17 @@ import {
 import { useRouter } from "expo-router";
 import tw from "twrnc";
 import BalloonIcon from "../../assets/images/balloon.svg";
-import { playVoice } from "@/hooks/playVoice";
+
 import Button from '@/components/Button';
 
 import BackgroundWrapper from "@/components/BackgroundWrapper";
 import { useLoader } from "@/context/LoaderContext";  // Import the loader context
+import MusicLayout from "@/components/MusicLayout";
+import { MusicManager } from "@/hooks/MusicManager";
+// ✅ Voice imports
+import { SoundManager } from "@/hooks/SoundManager";
+import { VOICE_MESSAGES, VOICE_STYLES } from "@/constants/voicePresets";
+
 
 export default function LoginScreen() {
     const router = useRouter();
@@ -28,9 +34,11 @@ export default function LoginScreen() {
     const slideInputAnim = useRef(new Animated.Value(30)).current;
 
     useEffect(() => {
-        playVoice({
-            text: "enter your nick name"
-        });
+         // ✅ Play voice on mount
+    SoundManager.speak({
+        text: VOICE_MESSAGES.login,
+        style: VOICE_STYLES.funKid,
+    });
 
         // Balloon floating animation
         Animated.loop(
@@ -96,7 +104,8 @@ export default function LoginScreen() {
             showLoader(); // Start loader
 
             try {
-                await new Promise((resolve) => setTimeout(resolve, 3500)); // Simulate loading
+                 await MusicManager.fadeOutAndStop();
+                await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate loading
                 hideLoader();
 
                 setTimeout(() => {
@@ -115,7 +124,8 @@ export default function LoginScreen() {
     });
 
     return (
-        <BackgroundWrapper>
+        <MusicLayout musicKey="landing">
+            <BackgroundWrapper>
             {/* Animated Balloon with wiggle */}
             <Animated.View
                 style={[
@@ -164,5 +174,6 @@ export default function LoginScreen() {
                 />
             </View>
         </BackgroundWrapper>
+        </MusicLayout>
     );
 }
