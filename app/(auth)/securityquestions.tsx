@@ -21,14 +21,23 @@ import MusicLayout from "@/components/MusicLayout";
 import { SoundManager } from "@/hooks/SoundManager";
 import { VOICE_MESSAGES, VOICE_STYLES } from "@/constants/voicePresets";
 import { MusicManager } from "@/hooks/MusicManager";
+import { playClickSound } from "@/hooks/buttonPopSound";
 
 
 
 const questions = [
-  { text: "What is your favorite color?", icon: "🎨" },
-  { text: "What is your pet's name?", icon: "🐶" },
-  { text: "What is your mother's name?", icon: "👩" },
-  { text: "What is the name of your favourite teacher?", icon: "👨‍🏫" },
+  { id: 0, text: "What is your favorite color?", icon: "🎨" },
+  { id: 1, text: "What is your pet's name?", icon: "🐶" },
+  { id: 2, text: "What is your mother's name?", icon: "👩" },
+  { id: 3, text: "What is the name of your favourite teacher?", icon: "👨‍🏫" },
+];
+
+const voiceMessages = [
+  'Enter yout favorite color!',
+  'Enter your pet\'s name!',
+  'Enter your mother\'s name!',
+  'Enter the name of your favourite teacher!',
+  'Enter your answer!',
 ];
 
 export default function SecurityQuestion() {
@@ -41,7 +50,7 @@ export default function SecurityQuestion() {
 
   const router = useRouter();
   const { showLoader, hideLoader } = useLoader();
-  const [selectedQuestion, setSelectedQuestion] = useState<{ text: string; icon: string } | null>(null);
+  const [selectedQuestion, setSelectedQuestion] = useState<{ id: number; text: string; icon: string } | null>(null);
   const [answer, setAnswer] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -69,7 +78,7 @@ export default function SecurityQuestion() {
 
   const handleSubmit = async () => {
     showLoader();
-     await MusicManager.fadeOutAndStop(); 
+    await MusicManager.fadeOutAndStop();
     await new Promise((resolve) => setTimeout(resolve, 3500));
     hideLoader();
 
@@ -78,6 +87,25 @@ export default function SecurityQuestion() {
     }, 100);
   };
 
+  const handleDropdownClick = (item: { id: number; text: string; icon: string }) => {
+    playClickSound();
+    if (item.id !== selectedQuestion?.id) {
+      setSelectedQuestion(item);
+      setAnswer("");
+      SoundManager.speak({
+        text: voiceMessages[item?.id ?? 4],
+        style: VOICE_STYLES.funKid,
+      });
+    } else {
+      if(answer.trim() === "") {
+        SoundManager.speak({
+          text: voiceMessages[item?.id ?? 4],
+          style: VOICE_STYLES.funKid,
+        });
+      }
+    }
+    setShowDropdown(false);
+  };
 
   return (
     <MusicLayout musicKey="landing">
@@ -99,6 +127,7 @@ export default function SecurityQuestion() {
               <TouchableOpacity
                 style={tw`w-11/12 self-center items-center bg-green-100 border-4 border-green-500 rounded-full p-4`}
                 onPress={() => {
+                  playClickSound();
                   setShowDropdown(!showDropdown);
                   showDropdownAnim.value = showDropdown ? 0 : 1;
                   Keyboard.dismiss();
@@ -144,14 +173,7 @@ export default function SecurityQuestion() {
                       <TouchableOpacity
                         key={index}
                         style={tw`flex-row items-center p-3 ${index !== questions.length - 1 ? "border-b border-gray-300" : ""}`}
-                        onPress={() => {
-                          setSelectedQuestion(item);
-                          setShowDropdown(false);
-                          SoundManager.speak({
-                            text: "enter your answer!",
-                            style: VOICE_STYLES.funKid, // or use any other style you like
-                          });
-                        }}
+                        onPress={()=> handleDropdownClick(item)}
                       >
                         <View style={tw`w-10 h-10 rounded-full bg-red-300 items-center justify-center mr-2`}>
                           <Text style={tw`text-lg`}>{item.icon}</Text>
