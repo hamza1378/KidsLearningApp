@@ -13,7 +13,7 @@ export default function RootLayout() {
       <Stack.Screen name="securityquestions" />
       <Stack.Screen name="subjectselection" />
       <Stack.Screen name="avatarcustomization" />
-      
+      <Stack.Screen name="success" />
     </Stack>
   );
 }
