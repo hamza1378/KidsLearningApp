@@ -1,5 +1,5 @@
 export const VOICE_MESSAGES = {
-    welcome: "Welcome! Let's Get Started!",
+    welcome: "Welcome To Hyper Kids Academy!",
     login: "Enter Your Nick Name!",
     securityQuestion: "pick up a security question!",
     goodbye: "Bye bye! See you next time!",

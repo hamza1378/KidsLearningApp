@@ -100,7 +100,7 @@ export default function SubjectSelection() {
         try {
             await MusicManager.fadeOutAndStop();
             await new Promise(resolve => setTimeout(resolve, 3500));
-            router.navigate('/(auth)/success');
+            router.navigate('/(tabs)/home');
         } catch (error) {
             console.error("Navigation error:", error);
         } finally {

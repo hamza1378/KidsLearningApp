@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const SettingScreen = ()=> {
+const HelpScreen = ()=> {
   return (
     <View>
-      <Text>Settings</Text>
+      <Text>Help</Text>
     </View>
   )
 }
 
-export default SettingScreen;
+export default HelpScreen;
