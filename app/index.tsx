@@ -7,7 +7,6 @@ import Button from "@/components/Button";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
 import { useLoader } from "@/context/LoaderContext";
 
-// ✅ Voice + Music
 import { SoundManager } from "@/hooks/SoundManager";
 import { MusicManager } from "@/hooks/MusicManager";
 import { VOICE_MESSAGES, VOICE_STYLES } from "@/constants/voicePresets";
@@ -17,7 +16,6 @@ export default function LandingPage() {
   const router = useRouter();
   const { showLoader, hideLoader } = useLoader();
 
-  // ✅ Play voice on mount
   useEffect(() => {
     SoundManager.speak({
       text: VOICE_MESSAGES.welcome,
@@ -25,13 +23,12 @@ export default function LandingPage() {
     });
   }, []);
 
-  // ✅ Fade out music and navigate
   const handlePress = async () => {
     showLoader();
 
     try {
       // Fade out the music
-      await MusicManager.fadeOutAndStop(); 
+      await MusicManager.fadeOutAndStop();
       await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for animations or loaders
       hideLoader();
       router.push("/(auth)/nickname"); // Navigate to next screen
@@ -42,9 +39,8 @@ export default function LandingPage() {
   };
 
   return (
-    
-     <MusicLayout musicKey="landing">
-       <BackgroundWrapper>
+    <MusicLayout musicKey="landing">
+      <BackgroundWrapper>
         {/* Animated Background */}
         <Animatable.View
           animation={{
@@ -67,13 +63,9 @@ export default function LandingPage() {
 
         {/* Get Started Button */}
         <View style={tw`absolute bottom-10 w-full`}>
-          <Button 
-            title="Get Started" 
-            showAnimatedHand 
-            onPress={handlePress} 
-          />
+          <Button title="Get Started" showAnimatedHand onPress={handlePress} />
         </View>
       </BackgroundWrapper>
-   </MusicLayout>
+    </MusicLayout>
   );
 }
