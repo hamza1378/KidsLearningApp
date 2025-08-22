@@ -31,7 +31,7 @@ export default function LandingPage() {
       await MusicManager.fadeOutAndStop();
       await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for animations or loaders
       hideLoader();
-      router.push("/(auth)/nickname"); // Navigate to next screen
+      router.push("/(tabs)/home"); // Navigate to next screen
     } catch (err) {
       console.error("Something went wrong:", err);
       hideLoader();
@@ -39,7 +39,7 @@ export default function LandingPage() {
   };
 
   return (
-    <MusicLayout musicKey="landing">
+    <MusicLayout musicKey="landing" screenId="landing-page">
       <BackgroundWrapper>
         {/* Animated Background */}
         <Animatable.View

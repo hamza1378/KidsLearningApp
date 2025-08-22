@@ -26,7 +26,7 @@ const BackgroundWrapper = ({ children, alignment = "start" }: Props) => {
           end={{ x: 0.3, y: 0.9 }}
           style={tw`absolute top-0 left-0 right-0 bottom-0`}
         >
-          <SafeAreaView style={tw`flex-1 justify-${alignment} items-center`}>
+          <SafeAreaView style={tw`flex-1 justify-${alignment}`}>
             {children}
           </SafeAreaView>
         </LinearGradient>

@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import tw from 'twrnc';
 import Button from '@/components/Button';
-import { SUBJECTS, Subject } from '../../constants/subject';
+import { SUBJECTS, Subject } from '@/constants';
 import BackgroundWrapper from '@/components/BackgroundWrapper';
 import { router } from 'expo-router';
 import { useLoader } from '@/context/LoaderContext';
 import { SoundManager } from '@/hooks/SoundManager';
-import { VOICE_STYLES } from '@/constants/voicePresets';
+import { VOICE_STYLES } from '@/constants';
 import { MusicManager } from '@/hooks/MusicManager';
 import MusicLayout from '@/components/MusicLayout';
 import { playClickSound } from '@/hooks/buttonPopSound';
@@ -109,7 +109,7 @@ export default function SubjectSelection() {
     };
 
     return (
-        <MusicLayout musicKey="landing">
+        <MusicLayout musicKey="landing" screenId="subject-selection-screen">
             <BackgroundWrapper>
                 <ScrollView contentContainerStyle={tw`w-full items-center pb-40`} showsVerticalScrollIndicator={false}>
                     <View style={tw`items-center mb-8 mt-12`}>

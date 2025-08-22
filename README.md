@@ -1,8 +1,44 @@
-# Welcome to your Expo app 👋
+# Kid Learning App 🎓
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A professional React Native/Expo application designed for children's learning and education. This app features a clean, maintainable codebase following industry best practices.
 
-## Get started
+## Features
+
+- 📚 Interactive learning modules
+- 🏆 Achievement system
+- 📊 Progress tracking and statistics
+- 🎨 Avatar customization
+- 🔒 Security features
+- 📱 Cross-platform (iOS/Android)
+- 🎵 Background music and sound effects
+- 📺 Cast to TV functionality
+
+## Tech Stack
+
+- **Framework**: React Native with Expo
+- **Navigation**: Expo Router (file-based routing)
+- **Styling**: Tailwind CSS (twrnc)
+- **Language**: TypeScript
+- **State Management**: React Context
+- **Audio**: Expo AV
+- **Animations**: React Native Animated + Animatable
+
+## Project Structure
+
+This project follows a professional, scalable architecture:
+
+- **`/app`** - Expo Router screens and navigation
+- **`/components`** - Reusable UI components
+- **`/constants`** - Application constants and configuration
+- **`/data`** - Static data and mock data
+- **`/types`** - TypeScript type definitions
+- **`/utils`** - Utility functions and helpers
+- **`/hooks`** - Custom React hooks
+- **`/context`** - React Context providers
+
+For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+## Get Started
 
 1. Install dependencies
 
@@ -10,30 +46,38 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Start the development server
 
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+The development server will provide options to run the app on:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 📱 **Expo Go** - Quick testing on physical devices
+- 🤖 **Android Emulator** - For Android development
+- 🍎 **iOS Simulator** - For iOS development (macOS only)
+- 🌐 **Web Browser** - For web development
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Development Guidelines
 
-## Get a fresh project
+This project follows professional coding standards:
 
-When you're ready, run:
+- ✅ **TypeScript** for type safety
+- ✅ **Component-based architecture** for reusability
+- ✅ **Separation of concerns** for maintainability
+- ✅ **Consistent naming conventions**
+- ✅ **Clean imports** using index files
+- ✅ **Utility functions** for reusable logic
+- ✅ **Constants** instead of magic values
 
-```bash
-npm run reset-project
-```
+## Available Scripts
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- `npm start` - Start the development server
+- `npm run android` - Run on Android emulator
+- `npm run ios` - Run on iOS simulator
+- `npm run web` - Run in web browser
+- `npm run reset-project` - Reset to a fresh project (removes all current code)
 
 ## Learn more
 

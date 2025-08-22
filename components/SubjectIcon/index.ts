@@ -1,0 +1,1 @@
+import SubjectIcon from './SubjectIcon';

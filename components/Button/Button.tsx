@@ -8,19 +8,15 @@ import {
 } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import * as Animatable from "react-native-animatable";
-import ButtonPropsType from '@/types/ButtonPropsTypes';
+interface ButtonPropsType {
+  title?: string;
+  showAnimatedHand?: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
+  size?: 'small' | 'medium';
+}
 import Colors from '@/constants/Colors';
-import { Audio } from "expo-av";
-
-const playClickSound = async () => {
-    const { sound } = await Audio.Sound.createAsync(
-        require("../../assets/audio/buttonPop.mp3") // Adjust path as per your file structure
-    );
-    await sound.playAsync();
-    setTimeout(() => {
-        sound.unloadAsync();
-    }, 1000);
-};
+import { playClickSound } from '@/hooks/buttonPopSound';
 
 const Button = ({
     title = '',
