@@ -5,6 +5,8 @@ import BackgroundWrapper from "@/components/BackgroundWrapper";
 import MusicLayout from "@/components/MusicLayout";
 import * as Animatable from "react-native-animatable";
 import { FontAwesome } from "@expo/vector-icons";
+import { setSoundEffectsEnabled } from "@/hooks/SoundManager";
+import { MusicManager } from "@/hooks/MusicManager";
 
 const languages = ["English", "Spanish", "French", "German"];
 
@@ -21,6 +23,20 @@ export default function SettingsScreen() {
     if (editNickname.trim()) {
       setNickname(editNickname.trim());
       setEditNickname("");
+    }
+  };
+
+  const handleSoundToggle = (value:boolean)=>{
+    setSoundOn(value);
+    setSoundEffectsEnabled(value);
+  };
+
+  const handleMusicToggle = async (value:boolean)=>{
+    setMusicOn(value);
+    if(!value){
+      await MusicManager.fadeOutAndStop();
+    }else{
+      await MusicManager.playMusic("landing");
     }
   };
 
@@ -113,11 +129,11 @@ export default function SettingsScreen() {
                 <Text style={tw`text-white text-lg font-bold mb-4`}>Sound Settings</Text>
                 <View style={tw`flex-row items-center justify-between mb-3`}>
                   <Text style={tw`text-white text-base`}>Sound Effects</Text>
-                  <Switch value={soundOn} onValueChange={setSoundOn} thumbColor={soundOn ? '#1dd7e0' : '#e5e7eb'} trackColor={{ true: '#a7f3d0', false: '#e5e7eb' }} />
+                  <Switch value={soundOn} onValueChange={handleSoundToggle} thumbColor={soundOn ? '#1dd7e0' : '#e5e7eb'} trackColor={{ true: '#a7f3d0', false: '#e5e7eb' }} />
                 </View>
                 <View style={tw`flex-row items-center justify-between`}>
                   <Text style={tw`text-white text-base`}>Background Music</Text>
-                  <Switch value={musicOn} onValueChange={setMusicOn} thumbColor={musicOn ? '#1dd7e0' : '#e5e7eb'} trackColor={{ true: '#a7f3d0', false: '#e5e7eb' }} />
+                  <Switch value={musicOn} onValueChange={handleMusicToggle} thumbColor={musicOn ? '#1dd7e0' : '#e5e7eb'} trackColor={{ true: '#a7f3d0', false: '#e5e7eb' }} />
                 </View>
               </View>
             </Animatable.View>

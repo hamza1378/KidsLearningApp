@@ -26,6 +26,7 @@ module.exports = {
         greenColor: "#65f79d",
         skinColor: "#cfae8c",
         lightGreen: "#bdf0d1",
+        orange: "#ff9100",
         primary: {
           DEFAULT: '#38bdf8',
           light: '#7dd3fc',
@@ -48,6 +49,27 @@ module.exports = {
           bg: '#ffffff',
           border: '#f3f4f6',
         },
+        // Special colors
+        gold: '#FFD700',
+        purple: '#8b5cf6',
+        pink: '#ec4899',
+        indigo: '#6366f1',
+        teal: '#14b8a6',
+        orange: '#f59e42',
+      },
+      // Gradient configurations
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        // Custom gradients
+        'gradient-welcome': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'gradient-sunset': 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        'gradient-ocean': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        'gradient-forest': 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        'gradient-sunrise': 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        'gradient-royal': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'gradient-candy': 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+        'gradient-aurora': 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
       },
       boxShadow: {
         'sm': '0 1px 2px rgba(0, 0, 0, 0.05)',

@@ -5,4 +5,5 @@ export interface QuizResult {
   totalQuestions: number;
   date: string;
   passed: boolean;
+  subject?: string;
 }

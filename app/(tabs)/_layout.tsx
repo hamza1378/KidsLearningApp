@@ -160,6 +160,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
+          headerShown: false,
           title: "History",
           tabBarIcon: ({ focused }) => (
             <Animated.View 

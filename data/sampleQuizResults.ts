@@ -8,6 +8,7 @@ const sampleQuizResults: QuizResult[] = [
     totalQuestions: 5,
     date: '2024-01-15',
     passed: true,
+    subject: 'Math',
   },
   {
     id: '2',
@@ -16,6 +17,7 @@ const sampleQuizResults: QuizResult[] = [
     totalQuestions: 5,
     date: '2024-01-14',
     passed: true,
+    subject: 'Science',
   },
   {
     id: '3',
@@ -24,6 +26,7 @@ const sampleQuizResults: QuizResult[] = [
     totalQuestions: 5,
     date: '2024-01-13',
     passed: true,
+    subject: 'English',
   },
   {
     id: '4',
@@ -32,6 +35,7 @@ const sampleQuizResults: QuizResult[] = [
     totalQuestions: 5,
     date: '2024-01-12',
     passed: true,
+    subject: 'History',
   },
 ];
 
